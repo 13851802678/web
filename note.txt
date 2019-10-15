@@ -1,0 +1,171 @@
+git的使用
+  1. 安装
+    默认安装
+  
+  所有的git命令都是以git开头的
+  2. 用户信息的配置
+    git config --global user.name "用户名"
+    git config --global user.email "邮箱"
+    全局配置，只需要配置一次即可，除非卸载或重装系统
+  
+  3. 初始化本地仓库
+    git init
+    将当前所在文件夹初始化为本地仓库
+    此时，会自动生成一个.git的隐藏文件夹，这就是本地仓库的版本库(不要动)
+    
+  4. 查看仓库的状态
+    git status
+
+      git的四种状态：
+        untracked: 新建的文件，但是还没有提交过，没有纳入到git的控制中
+        staged: 执行过git add命令，提交到了暂存区
+        unmodified: 执行过git commit命令，工作区中的文件没有任何修改，不需要提交(nothing to commit , working tree clean)
+        modified: 工作区的文件有修改，还没有执行git add暂存操作
+
+  5. 提交
+    1) git add 文件名
+      将指定文件提交到暂存区
+    2) git commit -m "提交的信息"
+      将暂存区的内容全部提交到master上
+
+  6. 查看提交的信息
+    git log
+
+    git log --pretty=oneline
+
+
+练习：
+  在d盘下新建一个空文件夹a
+  (每操作完一步，就查看一下仓库的状态)
+  将其初始化为本地仓库
+  新建文件1.txt
+  提交(add，commit)
+  往1.txt中输入数据
+  提交
+  修改1.txt的内容
+  提交
+  查看提交的记录
+
+
+  7. 撤销修改
+    1) 撤销工作区的修改
+      git checkout -- 文件名
+    
+    2) 撤销暂存区的修改
+      2.1 git reset HEAD 文件名
+        取消git add的操作
+      2.2 git checkout -- 文件名
+        取消工作区的修改
+    
+    3) 撤销master的修改
+      无法取消
+      使用版本回退的方式
+      先查看历史提交的id信息，然后确定需要回退到哪个提交点
+
+      git reset --hard 提交的id
+      id不需要写完整，一般只需要写前6位即可
+
+
+  git status 会忽略空文件夹
+  git add -A 自动暂存所有被修改的文件，忽略空文件夹
+
+
+  HEAD
+    就是一个存盘点，实现版本的控制
+    git将每一次的提交串成一条时间线，这条时间线就是一条分支。
+    默认只有一条分支，master，也称之为主分支
+    而HEAD指向的就是当前分支
+
+
+  8. 创建分支
+    git branch 分支名称
+    创建一条新的分支，新分支的内容就是当前分支的内容
+  
+  9. 查看当前仓库有哪些分支
+    git branch
+    前面有*表示当前所在的分支
+  
+  10. 切换分支
+    git checkout 分支名称
+    切换到指定名称的分支上去
+    此时，HEAD的指向也会发生改变(切换到哪个分支，HEAD就指向哪个分支)
+    在一条分支上的修改不会影响到其他分支上的数据
+
+  11. 合并分支
+    git merge 分支名称
+    将指定名称分支上修改的内容合并到当前分支
+    在master上使用命令 git merge v1
+    将v1的修改合并到master上
+    maser的内容发生变化，v1的内容不变
+
+
+练习：
+  1. 提交master分支
+  2. 从master分支上复制一条新的分支V3
+  3. 查看当前分支
+  4. 切换到V3分支
+  5. 查看v3的状态
+  6. 修改v3分支中的a.txt内容，并提交
+  7. 查看提交信息
+  8. 切换到master分支，查看提交信息
+  9. 将v3合并到master，查看提交信息
+  10. 查看master中a.txt的内容
+
+
+  12. 删除分支
+    git branch -d 分支名
+    删除指定分支(不能删除当前所在的分支)
+    如果被删除的分支没有合并，则删除失败
+    可以使用
+    git branch -D 分支名
+    来强制删除
+
+
+GitHub的使用
+  1. 注册
+    www.github.com
+
+  2. 创建远程仓库
+    点击右上角加号+ ， new repository
+    在repository name中填写远程仓库的名称
+    description可以不写，表示该仓库的描述
+    public与private选择public
+    readme不要勾选
+    点击create repository
+
+  3. 将远程仓库与本地仓库关联
+    git remote add origin 远程仓库的url地址
+
+    git remote 固定语法
+    add 表示添加关联
+    origin 表示关联的名称，指代 后面的那个url地址
+
+  4. 将本地仓库的内容推送到远程仓库去
+    git push -u origin master
+    git push 固定语法
+    -u 只在第一次推送的时候添加，以后就不需要了
+    origin 代表关联时的那个远程仓库的url地址
+    master 代表推送的分支
+
+  5. 查看当前仓库的所有关联
+    git remote
+
+  6. 删除远程仓库的关联
+    git remote remove 关联的名称
+
+
+
+练习：
+  创建一个远程仓库，与本地仓库关联
+  将本地仓库的内容推送到远程仓库去
+
+  修改本地仓库的内容，不提交
+  推送到远程仓库
+
+  提交
+  再修改本地仓库的内容，不提交
+  推送到远程仓库
+
+  提交，推送
+
+
